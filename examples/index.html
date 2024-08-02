@@ -98,15 +98,16 @@ class BasicWorldDemo {
     plane.rotation.x = -Math.PI / 2;
     this._scene.add(plane);
 
-    const shapeColors = [0xF2E52E, 0xF28A2E, 0xF25244]
+    const shapeColors = [0xF2E52E, 0xF28A2E, 0xF25244];
 
     for (let x = -8; x < 8; x++) {
       for (let y = -8; y < 8; y++) {
+
+        const color = shapeColors[Math.floor(Math.random() * shapeColors.length)];
         const box = new THREE.Mesh(
           new THREE.BoxGeometry(2, 2, 2),
-          new THREE.MeshStandardMaterial({
-              color: 0x808080,
-          }));
+          new THREE.MeshStandardMaterial({color: color })
+        );
         box.position.set(Math.random() + x * 5, Math.random() * 24.0 + 2.0, Math.random() + y * 5);
         box.castShadow = true;
         box.receiveShadow = true;
