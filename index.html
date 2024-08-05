@@ -4,7 +4,7 @@
   <title>Geometry Project</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-  <link type="text/css" rel="stylesheet" href="main.css">
+  <link type="text/css" rel="stylesheet" href="examples/main.css">
   <style>
     #rotateButton {
       position: absolute;
@@ -26,16 +26,16 @@
   <script type="importmap">
     {
       "imports": {
-        "three": "../build/three.webgpu.js",
-        "three/tsl": "../build/three.webgpu.js",
-        "three/addons/": "./jsm/"
+        "three": "./build/three.webgpu.js",
+        "three/tsl": "./build/three.webgpu.js",
+        "three/addons/": "./examples/jsm/"
       }
     }
   </script>
 
   <script type="module">
-    import * as THREE from '/build/three.module.js';
-    import { OrbitControls } from '/examples/jsm/controls/OrbitControls.js';
+    import * as THREE from './build/three.module.js';
+    import { OrbitControls } from './examples/jsm/controls/OrbitControls.js';
 
     class BasicWorldDemo {
       constructor() {
