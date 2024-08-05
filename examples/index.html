@@ -144,14 +144,14 @@
       _RAF() {
         requestAnimationFrame(() => {
           if (this.isRotating) {
-            this.cameraAngle += 0.01; // Adjust the rotation speed
+            this.cameraAngle += 0.001;
             this._camera.position.x = this.cameraRadius * Math.cos(this.cameraAngle);
             this._camera.position.z = this.cameraRadius * Math.sin(this.cameraAngle);
-            this._camera.position.y = 20; // Fixed height
+            this._camera.position.y = 20;
           }
 
-          this._camera.lookAt(new THREE.Vector3(0, 20, 0)); // Look at the center of the plane
-          this._controls.update(); // Update controls when not rotating
+          this._camera.lookAt(new THREE.Vector3(10, 1, 0));
+          this._controls.update();
           this._threejs.render(this._scene, this._camera);
           this._RAF();
         });
