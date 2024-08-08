@@ -7,19 +7,23 @@
   <link type="text/css" rel="stylesheet" href="examples/main.css">
   <style>
     body { margin: 0; }
-    #rotateButton {
+    #rotateButton, #increaseButton, #decreaseButton {
       position: absolute;
-      top: 10px;
-      left: 10px;
+      bottom: 10px;
       padding: 10px;
       font-size: 16px;
       cursor: pointer;
     }
+    #rotateButton { left: 10px; }
+    #increaseButton { left: 140px; }
+    #decreaseButton { left: 210px; }
   </style>
 </head>
 <body>
   <div id="info">Simple Geometry Project</div>
   <button id="rotateButton">Auto Rotate</button>
+  <button id="increaseButton">MORE</button>
+  <button id="decreaseButton">LESS</button>
 
   <script type="importmap">
     {
@@ -36,6 +40,8 @@
 
     class SimpleGeometry {
       constructor() {
+        this.totalShapes = 2000;
+        this.shapes = [];
         this._Initialize();
       }
 
@@ -97,7 +103,7 @@
         plane.rotation.x = -Math.PI / 2;
         this._scene.add(plane);
 
-        const geometries = [
+        this.geometries = [
           new THREE.BoxGeometry(2, 2, 2),
           new THREE.SphereGeometry(2, 32, 32),
           new THREE.IcosahedronGeometry(2),
@@ -105,18 +111,7 @@
           new THREE.TetrahedronGeometry(2)
         ];
 
-        for (let x = -33; x < 33; x++) {
-          for (let y = -33; y < 33; y++) {
-            const randomColor = new THREE.Color(Math.random(), Math.random(), Math.random());
-            const geometry = geometries[Math.floor(Math.random() * geometries.length)];
-            const material = new THREE.MeshStandardMaterial({ color: randomColor });
-            const shape = new THREE.Mesh(geometry, material);
-            shape.position.set(Math.random() + x * 5, Math.random() * 36.0 + 2.0, Math.random() + y * 5);
-            shape.castShadow = true;
-            shape.receiveShadow = false;
-            this._scene.add(shape);
-          }
-        }
+        this._AddShapes(this.totalShapes);
 
         this.cameraRadius = 100;
         this.cameraAngle = 0;
@@ -128,7 +123,47 @@
           rotateButton.textContent = this.isRotating ? 'Stop Rotation' : 'Start Rotation';
         });
 
+        const increaseButton = document.getElementById('increaseButton');
+        increaseButton.addEventListener('click', () => {
+          this.totalShapes += 1000;
+          this._AddShapes(1000);
+        });
+
+        const decreaseButton = document.getElementById('decreaseButton');
+        decreaseButton.addEventListener('click', () => {
+          if (this.totalShapes > 1000) {
+            this.totalShapes -= 1000;
+            this._RemoveShapes(1000);
+          }
+        });
+
         this._RAF();
+      }
+
+      _AddShapes(count) {
+        for (let i = 0; i < count; i++) {
+          const x = (Math.random() - 0.5) * 200;
+          const y = Math.random() * 100 + 2.0;
+          const z = (Math.random() - 0.5) * 200;
+          const randomColor = new THREE.Color(Math.random(), Math.random(), Math.random());
+          const geometry = this.geometries[Math.floor(Math.random() * this.geometries.length)];
+          const material = new THREE.MeshStandardMaterial({ color: randomColor });
+          const shape = new THREE.Mesh(geometry, material);
+          shape.position.set(x, y, z);
+          shape.castShadow = true;
+          shape.receiveShadow = false;
+          this._scene.add(shape);
+          this.shapes.push(shape);
+        }
+      }
+
+      _RemoveShapes(count) {
+        for (let i = 0; i < count; i++) {
+          const shape = this.shapes.pop();
+          if (shape) {
+            this._scene.remove(shape);
+          }
+        }
       }
 
       _OnWindowResize() {
