@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
   <link type="text/css" rel="stylesheet" href="examples/main.css">
   <style>
+    body { margin: 0; }
     #rotateButton {
       position: absolute;
       top: 10px;
@@ -17,10 +18,7 @@
   </style>
 </head>
 <body>
-  <div id="info">
-    Simple Geometry Project
-  </div>
-  
+  <div id="info">Simple Geometry Project</div>
   <button id="rotateButton">Auto Rotate</button>
 
   <script type="importmap">
@@ -35,7 +33,7 @@
   <script type="module">
     import * as THREE from './build/three.module.js';
     import { OrbitControls } from './examples/jsm/controls/OrbitControls.js';
-    
+
     class SimpleGeometry {
       constructor() {
         this._Initialize();
@@ -49,7 +47,6 @@
         this._threejs.shadowMap.type = THREE.PCFSoftShadowMap;
         this._threejs.setPixelRatio(window.devicePixelRatio);
         this._threejs.setSize(window.innerWidth, window.innerHeight);
-
         document.body.appendChild(this._threejs.domElement);
 
         window.addEventListener('resize', () => {
@@ -57,7 +54,7 @@
         }, false);
 
         const fov = 60;
-        const aspect = 1920 / 1080;
+        const aspect = window.innerWidth / window.innerHeight;
         const near = 1.0;
         const far = 1000.0;
         this._camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
@@ -121,9 +118,9 @@
           }
         }
 
-        this.cameraRadius = 100; 
-        this.cameraAngle = 0; 
-        this.isRotating = false; 
+        this.cameraRadius = 100;
+        this.cameraAngle = 0;
+        this.isRotating = false;
 
         const rotateButton = document.getElementById('rotateButton');
         rotateButton.addEventListener('click', () => {
